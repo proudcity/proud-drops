@@ -1,0 +1,17 @@
+name = Proud Admin
+description = Provides several custom panes to panels.
+core = 7.x
+package = Proud
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = menu
+dependencies[] = panelizer
+dependencies[] = panels
+dependencies[] = google_analytics_embed
+features[ctools][] = panelizer:panelizer:1
+features[features_api][] = api:2
+features[menu_custom][] = menu-admin
+features[menu_links][] = menu-admin_content:admin/content
+features[menu_links][] = menu-admin_dashboard:user
+features[menu_links][] = menu-admin_people:admin/people
+features[panelizer_defaults][] = user:user:default:default

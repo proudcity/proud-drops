@@ -1,0 +1,70 @@
+/* Push the whole page down */
+.proud-toolbar-active {
+  margin-top: 40px;
+}
+
+/* This is mostly replicating code from Bootstrap .navbar */
+.proud-navbar {
+  background-color: #3E2723;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  font-size: 14px !important;
+  height: 40px;
+}
+
+.proud-navbar li a{
+  color: #ccc;
+}
+
+.proud-navbar li a:hover{
+  color: #fff;
+}
+
+.proud-navbar .navbar-nav > li > a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px;
+}
+
+.proud-navbar .proud-menu-tab {
+  background-color: #4E342E !important;
+}
+
+.proud-navbar .navbar-nav > li > a:focus,
+.proud-navbar .navbar-nav > li > a:visited,
+.proud-navbar .navbar-nav > li > a:active,
+.proud-navbar .navbar-nav > li > a:hover,
+.proud-navbar .navbar-nav > li.open > a {
+  background-color: #5D4037 !important;
+  color: #fff !important;
+}
+
+.proud-navbar .navbar-nav > li > a.active{
+  color: #fff !important;
+}
+
+.proud-navbar .navbar-nav > li.proud-menu-tab > a.active {
+  /*background-color: #4C3835 !important;*/
+}
+
+.proud-navbar-home {
+  width: 40px;
+  text-indent: 1000em;
+  overflow: hidden;
+  background-image: url(http://www.iconsdb.com/icons/preview/white/home-5-xxl.png);
+  background-size: 32px 32px;
+}
+
+.proud-navbar .navbar-nav .user-picture img {
+  margin: 5px 5px 0 0;
+  border-radius: 15px;
+}
+
+
+/*.proud-navbar-icons ul a*/
+#panels-ipe-control-container {
+  padding: 0 !important;
+}
+
+#panels-ipe-control-container .panels-ipe-form-container {
+  padding: 10px;
+}

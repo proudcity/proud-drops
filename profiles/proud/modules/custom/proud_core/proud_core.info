@@ -1,0 +1,7 @@
+name = Proud Core
+description = Core hooks, UI tweaks and helper functions for the Proud family of distributions
+core = 7.x
+package = Proud
+
+
+

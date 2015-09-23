@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function proud_page_display_install() {
+  if (module_exists('proud_core')) {
+    module_load_include('inc', 'proud_core', 'includes/proud_core.permissions');
+  	$permissions = proud_core_panelizer_permissions('page', 'proud_page_display');
+  	proud_core_add_permissions($permissions);
+  }
+
+}
+
+
+

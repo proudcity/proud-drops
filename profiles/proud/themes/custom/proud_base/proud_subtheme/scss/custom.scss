@@ -1,0 +1,27 @@
+
+// Init styles
+// ---------------------------
+
+@import "loaders/load";
+
+// Styles from demo site
+// ---------------------------
+
+$brand-primary: $brand-primary;
+$brand-primary-alt: $brand-primary-alt;
+$brand-primary-highlight: $brand-primary-highlight;
+
+$brand-secondary: $brand-secondary;
+$brand-secondary-alt: $brand-secondary-alt;
+$brand-secondary-highlight: $brand-secondary-highlight;
+
+//$navbar-default-color: $navbar-default-color;
+$navbar-default-bg: $navbar-default-bg;
+$navbar-default-border: darken($navbar-default-bg, 6.5%) !default;
+
+// Custom styles
+// ---------------------------
+
+body {
+  
+}

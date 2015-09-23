@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function proud_widgets_install() {
+}
+
+/**
+ * Implements hook_install().
+ */
+function proud_widgets_post_install() {
+
+  module_load_include('inc', 'proud_core', 'includes/proud_core.permissions');
+  $permissions = array_merge(
+    proud_core_fpp_permissions('basic_file'),
+    proud_core_fpp_permissions('image'),
+    proud_core_fpp_permissions('quick_links'),
+    proud_core_fpp_permissions('text'),
+    proud_core_fpp_permissions('video')
+  );
+
+  proud_core_add_permissions($permissions);
+
+}
