@@ -21,7 +21,7 @@ module.exports = function(grunt) {
   // Set up our sass files
   var sassFiles = {},
       fileNames = [
-        'custom',
+        'custom'
       ];
 
   // compile sass file paths
@@ -63,37 +63,20 @@ module.exports = function(grunt) {
         tasks: ['sass:dev']
       },
 			livereload: {
-				files: ['*.html', '!node_modules/**', '!bower_components/**', 'js/**/*.js', 'css/**/*.css', 'images/**/*.{jpg,gif,svg,jpeg,png}'],
+				files: ['**/*.html', '!node_modules/**', '!bower_components/**', 'js/**/*.js', 'css/**/*.css', 'images/**/*.{jpg,gif,svg,jpeg,png}'],
 				options: {
-					livereload: 35727
+					livereload: true
 				}
 			}
-    },
-
-    connect: {
-			app: {
-				options: {
-					port: 9000,
-					base: './',
-					open: true,
-					livereload: 35727,
-					hostname: 'localhost',
-					middleware:  function (connect) {
-            return [
-              modRewrite ([filesRedirect]),
-              mountFolder(connect, './')
-            ];        
-	        }
-				}
-			}
-		}
+    }
   });
 
+  grunt.registerTask('compile-sass', ['sass']);
   
   grunt.registerTask('warn', "Notice", function() {
     grunt.log.writeln("If you change any bootstrap javascript, please make sure to run \"grunt build\" to see changes.");
   });
 
   // Run watch at default settings
-  grunt.registerTask('default', ['warn', 'sass:dev', 'connect:app', 'watch']);
+  grunt.registerTask('default', ['warn', 'sass:dev', 'watch']);
 }
