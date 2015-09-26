@@ -2,7 +2,10 @@
 // Init styles
 // ---------------------------
 
-@import "loaders/load";
+
+// Variables
+// --------------------------------
+@import "loaders/variable-loader";
 
 // Styles from demo site
 // ---------------------------
@@ -18,6 +21,19 @@ $brand-secondary-highlight: $brand-secondary-highlight;
 //$navbar-default-color: $navbar-default-color;
 $navbar-default-bg: $navbar-default-bg;
 $navbar-default-border: darken($navbar-default-bg, 6.5%) !default;
+
+// Bootstrap
+// --------------------------------
+@import "loaders/bootstrap-loader";
+
+// Bourbon
+// ---------------------------------
+
+@import "loaders/bourbon-loader";
+
+// Patterns
+// --------------------------------
+@import "loaders/pattern-loader";
 
 // Custom styles
 // ---------------------------
