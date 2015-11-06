@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ * Code for the Proud Social feature.
+ */
+
+include_once 'proud_social.features.inc';
+
+
+/**
+ * Implements hook_proud_post_install().
+ * These permissions need to be set after the feature has installed.
+ */
+function proud_social_proud_post_install() {
+  module_load_include('install', 'proud_social', 'proud_social');
+  proud_social_post_install();
+}
+
+
+/** 
+ * Implementation of hook_entity_info_alter().
+ */
+function proud_social_display_entity_info_alter(&$entity_info) {
+  // Example Widget.
+  $entity_info['fieldable_panels_pane']['bundles']['social_feed'] = array(
+    'label' => t('Social Network Feed'),
+    'pane category' => t('Social'),
+    'pane top level' => TRUE,
+    'admin' => array(
+      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_panes_type',
+      'bundle argument' => 4,
+      'real path' => 'admin/structure/fieldable-panels-panes/manage/social_feed',
+      'access arguments' => array('administer fieldable panels panes'),
+    ),
+  );
+}

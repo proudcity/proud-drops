@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Proud Search feature.
+ */
+
+include_once 'proud_search.features.inc';

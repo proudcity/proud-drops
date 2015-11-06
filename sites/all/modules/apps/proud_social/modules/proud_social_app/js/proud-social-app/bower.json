@@ -1,0 +1,24 @@
+{
+  "name": "Angular Bootstrap Boilerplate",
+  "dependencies": {
+    "angular": "~1.3.17",
+    "angular-sanitize": "~1.3.17",
+    "angular-resource": "~1.3.6",
+    "isotope": "1.5.25",
+    "angular-inview": "~1.5.0",
+    "angular-lazycompile": "git@github.com:aschmoe/angular-lazycompile#master",
+    "angular-isotope": "git@github.com:aschmoe/angular-isotope.git#cb0da03db9879c933138fe59026657ce56624f45",
+    "proudcity-patterns": "proudcity/proudcity-patterns#master",
+    "lodash": "~3.10.1",
+    "waitForImages": "~2.1.0"
+  },
+  "resolutions": {
+    "angular": "1.3.18",
+    "isotope": "1.5.25"
+  },
+  "overrides": {
+    "isotope": {
+      "main": "jquery.isotope.min.js"
+    }
+  }
+}

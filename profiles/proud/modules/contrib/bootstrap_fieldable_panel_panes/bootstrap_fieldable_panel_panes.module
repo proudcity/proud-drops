@@ -1,0 +1,73 @@
+<?php
+/**
+ * @file
+ * Code for the Bootstrap Fieldable Panel Panes feature.
+ */
+
+include_once 'bootstrap_fieldable_panel_panes.features.inc';
+
+/** 
+ * Implementation of hook_entity_info_alter()
+ */
+function bootstrap_fieldable_panel_panes_entity_info_alter(&$entity_info) {
+
+// Bootstrap carousel
+  $entity_info['fieldable_panels_pane']['bundles']['bootstrap_carousel'] = array(
+    'label' => t('Carousel'),
+    'description' => t('Add Bootstrap carousel'),
+    'pane category' => t('Custom'),
+    'pane top level' => TRUE,
+    'pane icon' => drupal_get_path('module', 'bootstrap_fieldable_panel_panes') . '/images/icon_carousel.png',
+    'admin' => array(
+      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_panes_type',
+      'bundle argument' => 4,
+      'real path' => 'admin/structure/fieldable-panels-panes/manage/bootstrap_carousel',
+      'access arguments' => array('administer fieldable panels panes'),
+    ),
+  );
+
+  // Bootstrap tabs
+  $entity_info['fieldable_panels_pane']['bundles']['bootstrap_tabs'] = array(
+    'label' => t('Tabs'),
+    'description' => t('Add Bootstrap tab block'),
+    'pane category' => t('Custom'),
+    'pane top level' => TRUE,
+    'pane icon' => drupal_get_path('module', 'bootstrap_fieldable_panel_panes') . '/images/icon_tabs.png',
+    'admin' => array(
+      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_panes_type',
+      'bundle argument' => 4,
+      'real path' => 'admin/structure/fieldable-panels-panes/manage/bootstrap_tabs',
+      'access arguments' => array('administer fieldable panels panes'),
+    ),
+  );
+
+  // Bootstrap accordion
+  $entity_info['fieldable_panels_pane']['bundles']['bootstrap_accordion'] = array(
+    'label' => t('Accordion'),
+    'description' => t('Add Bootstrap accordion'),
+    'pane category' => t('Custom'),
+    'pane top level' => TRUE,
+    'pane icon' => drupal_get_path('module', 'bootstrap_fieldable_panel_panes') . '/images/icon_accordion.png',
+    'admin' => array(
+      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_panes_type',
+      'bundle argument' => 4,
+      'real path' => 'admin/structure/fieldable-panels-panes/manage/bootstrap_accordion',
+      'access arguments' => array('administer fieldable panels panes'),
+    ),
+  );
+
+  // Bootstrap 4 card
+  $entity_info['fieldable_panels_pane']['bundles']['bootstrap_card'] = array(
+    'label' => t('Card'),
+    'description' => t('Add Bootstrap card'),
+    'pane category' => t('Custom'),
+    'pane top level' => TRUE,
+    'pane icon' => drupal_get_path('module', 'bootstrap_fieldable_panel_panes') . '/images/card.png',
+    'admin' => array(
+      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_panes_type',
+      'bundle argument' => 4,
+      'real path' => 'admin/structure/fieldable-panels-panes/manage/bootstrap_card',
+      'access arguments' => array('administer fieldable panels panes'),
+    ),
+  );
+}

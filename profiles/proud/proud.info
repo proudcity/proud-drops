@@ -1,0 +1,131 @@
+name = "Proud"
+description = "The base distro to get you making beautiful websites with Drupal"
+version = VERSION
+core = "7.x"
+
+; **************************************
+; * Drupal core modules
+; **************************************
+dependencies[] = block
+dependencies[] = node
+dependencies[] = contextual
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
+
+
+
+; **************************************
+; * Proud-specific modules below
+; **************************************
+
+; Proud - Contrib - Foundation
+dependencies[] = entity
+dependencies[] = entityreference
+dependencies[] = ctools
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = features
+dependencies[] = strongarm
+dependencies[] = libraries
+dependencies[] = simplehtmldom
+dependencies[] = menu_trail_by_path
+
+
+
+
+; Proud - Contrib - User Interface
+dependencies[] = jquery_update
+dependencies[] = admin_menu
+dependencies[] = admin_views
+dependencies[] = module_filter
+dependencies[] = filter_perms
+dependencies[] = menu_block
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = panels_ipe
+dependencies[] = panels_mini
+;dependencies[] = panels_extra_styles // no longer using
+dependencies[] = gravatar
+dependencies[] = apps
+
+; Proud - Contrib - Field UI and Content Types
+dependencies[] = email
+dependencies[] = link
+
+
+; Proud - Contrib - SEO
+dependencies[] = pathauto
+dependencies[] = pathauto_persist
+dependencies[] = redirect
+dependencies[] = googleanalytics
+dependencies[] = metatag
+dependencies[] = metatag_opengraph
+
+
+; Proud - Contrib - Media
+dependencies[] = media
+dependencies[] = file_entity
+dependencies[] = angular_media
+dependencies[] = media_formatters
+dependencies[] = oembed
+dependencies[] = ckeditor
+dependencies[] = ckeditor_widgets
+dependencies[] = ckeditor_filter
+dependencies[] = image_resize_filter
+dependencies[] = creative_commons
+
+
+; Proud - Contrib - Devel
+dependencies[] = devel
+
+
+; Panels / Display Modules
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = fieldable_panels_panes
+dependencies[] = page_manager
+dependencies[] = panelizer
+dependencies[] = panels
+dependencies[] = panels_ipe
+
+
+; Proud - Contrib - Standard Features
+dependencies[] = proud_core
+dependencies[] = proud_libraries
+dependencies[] = proud_input_formats
+dependencies[] = proud_date_formats
+dependencies[] = proud_toolbar
+dependencies[] = proud_panels
+dependencies[] = bootstrap_fieldable_panel_panes
+dependencies[] = proud_widgets
+dependencies[] = proud_media
+dependencies[] = proud_page
+dependencies[] = proud_page_display
+dependencies[] = proud_admin
+
+; Proud - Contrib - Optional Features
+;dependencies[] = proud_news
+;dependencies[] = proud_event
+;dependencies[] = proud_webform
+;dependencies[] = proud_landingpage
+;dependencies[] = proud_sitemap
+;dependencies[] = proud_workbench
+
+
+; ProudCity
+dependencies[] = proud_311_app
+dependencies[] = proudcity_pages
+
+
+files[] = proud.profile
+
+

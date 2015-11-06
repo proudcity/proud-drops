@@ -1,0 +1,4 @@
+name = Proud Libraries
+description = Adds common bundled libraries
+core = 7.x
+package = Proud

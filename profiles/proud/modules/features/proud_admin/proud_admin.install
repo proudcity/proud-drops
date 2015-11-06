@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function proud_admin_install() {
+  
+  if (module_exists('proud_core')) {
+  	$permissions = array(
+      array(
+        'name' => 'access proud toolbar',
+        'roles' => array('authenticated user'),
+        'module' => 'proud_toolbar',
+      )
+    );
+    proud_core_add_permissions($permissions);
+
+    // Enable panels for user view
+    variable_set('page_manager_user_view_disabled', FALSE);
+
+    // Add panelizer settings
+    proud_core_panelizer_default_settings('user', 'default', TRUE);
+    proud_core_panelizer_default_settings('user', 'user', TRUE);
+  }
+}
+
+
+/**
+ * Implements hook_uninstall().
+ */
+function proud_admin_uninstall() {
+  if (module_exists('proud_core')) {
+    // Add panelizer settings
+    proud_core_panelizer_default_settings('user', 'default', FALSE);
+    proud_core_panelizer_default_settings('user', 'user', FALSE);
+  }
+}
+

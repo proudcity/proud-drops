@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file
+ * Code for the Angular 311 feature.
+ */
+
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function proud_social_app_ctools_plugin_directory($owner, $plugin_type) {
+  // Call the various ctools plugin types.
+  $modules = array('panels', 'ctools');
+  if (in_array($owner, $modules) && !empty($plugin_type) && ($plugin_type == 'content_types' || $plugin_type == 'access' || $plugin_type == 'layouts')) {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**v
+ * Returns the path to the JS app.
+ */
+function proud_social_app_path() {
+  return drupal_get_path('module', 'proud_social_app') .'/js/proud-social-app/dist/';
+}
+
+/**
+ * Implements hook_library().
+ */
+function proud_social_app_library() {
+  $path = proud_social_app_path();
+  $js_settings = array('scope' => 'footer', 'weight' => 5);
+  $libraries['proud-social-app'] = array(
+    'title' => 'Proud social app',
+    'website' => 'http://albatrossdigital.com',
+    'version' => '0.1',
+    'js' => array(
+      $path . 'js/libraries.min.js' => $js_settings,
+      $path . 'js/app.min.js' => $js_settings,
+      $path . 'views/app.templates.js' => $js_settings,
+      drupal_get_path('module', 'proud_social_app') . '/js/proud-social-app.js' => $js_settings,
+    )
+  );
+  return $libraries;
+}
+
+
+/**
+ * Add the libraries and display the Angular 311 template
+ */
+//function proud_social_app_callback($subtype, $conf, $args, $contexts) {
+//  return theme('proud_social_app');  // @todo: variables
+//}
+
+
+/**
+ * Panel pane display.
+ */
+function proud_social_app_render_pane($subtype, $conf, $args, $contexts) {
+  $block = new stdClass();
+  $block->title = '';
+  $block->content = theme('proud_social_app', array('conf' => $conf)); 
+  return $block;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function proud_social_app_theme() {
+  global $base_url;
+  return array(
+    'proud_social_app' => array(
+      'template' => 'templates/app',
+      'variables' => array(
+        'socialApi' => 'http://45.55.8.62:8080/api/',
+        'conf' => array(
+          'widget_type' => NULL,
+          'post_count' => NULL,
+          'show_controls' => NULL,
+        )
+      )
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_theme_preprocess().
+ */
+function template_preprocess_proud_social_app(&$variables) {
+  $conf = $variables['conf'];
+  // Load angular libraries
+  proud_libraries_load_angular(true, false);
+  // Load local libraries
+  drupal_add_library('proud_social_app', 'proud-social-app');
+  $variables['app_id'] = 'proud-social-app-' . $variables['id'];
+  $settings = array(
+    'socialApi' => $variables['socialApi'],
+    'widget_type' => $conf['widget_type'],
+    'post_count' => $conf['post_count'],
+    'show_controls' => $conf['show_controls']
+  );
+  // Compile html into a url encoded string
+  $variables['lazy_html'] = rawurlencode(
+    '<div social-' . $conf['widget_type'] 
+    . ' social-post-count="' . $conf['post_count'] 
+    . '" social-hide-controls="' . $conf['show_controls'] . '"></div>'
+  );
+  drupal_add_js(array('proud_social_app' => $settings), 'setting');
+}

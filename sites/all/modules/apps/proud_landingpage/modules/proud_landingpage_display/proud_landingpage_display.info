@@ -1,0 +1,11 @@
+name = Proud Landing Page Display
+description = Panels configuration for Proud Landing Page
+core = 7.x
+package = Proud Display
+version = 7.x-1.0-beta1
+dependencies[] = ctools
+dependencies[] = panelizer
+dependencies[] = proud_landingpage
+features[ctools][] = panelizer:panelizer:1
+features[features_api][] = api:2
+features[panelizer_defaults][] = node:landingpage:default

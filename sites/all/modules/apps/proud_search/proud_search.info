@@ -1,0 +1,10 @@
+name = Proud Search
+description = Autocomplete search with Search API with a fallback to Google Search
+core = 7.x
+package = Proud
+version = 7.x-1.0-beta1
+dependencies[] = search_api
+dependencies[] = search_api_db
+features[features_api][] = api:2
+features[search_api_index][] = proud_search
+

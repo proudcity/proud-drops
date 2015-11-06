@@ -1,0 +1,9 @@
+name = My Custom Panes
+description = Provides several custom panes to panels.
+core = 7.x
+dependencies[] = ctools
+
+; Information added by drush on 2015-09-04
+version = "7.x-1.x-dev"
+project = "google_analytics_embed"
+datestamp = "1441404512"

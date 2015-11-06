@@ -1,0 +1,4 @@
+name = Proud Social App
+description = Drupal app for Proud distribution, creates an angular application to social wall, timeline.
+core = 7.x
+package = Proud

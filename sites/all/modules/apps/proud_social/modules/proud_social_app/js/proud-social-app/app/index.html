@@ -1,0 +1,68 @@
+<!doctype html>
+<html class="no-js" lang="en" ng-app="socialAppParent">
+  <head>
+    <meta charset="utf-8">
+    <base href="/" />
+    <meta property="og:image" content="http://FILLME!/images/shareimg.jpg" />
+    <meta property="og:url" content="http://FILLME!" />
+    <meta property="og:title" content="FILLME!" />
+    <meta property="og:description" content="FILLME!" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" ng-attr-content="{{metaDescription()}}" />
+    <meta name="keywords" ng-attr-content="{{metaKeywords()}}" />
+    <title ng-bind="pageTitle();">FILLME!</title>
+    <!-- build:css css/libraries.min.css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css css/app.min.css -->
+    <link rel="stylesheet" href="css/app.css">
+    <!-- endbuild -->
+    <script type="text/javascript">
+  
+    </script>
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'FILLME!', 'auto');
+    </script>
+  </head>
+  <body>
+    <div>
+        <div in-view="socialCompile = socialCompile || '%3Cdiv%20social-wall%20social-post-count%3D%2220%22%20social-hide-controls%3D%22true%22%3E%3C%2Fdiv%3E'"
+       lazy-compile="socialCompile" lazy-decode="true"></div>
+    </div>
+        
+    <!-- build:js js/bootstrap.min.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/waitForImages/src/jquery.waitforimages.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/angular-lazy.min.js -->
+    <script src="bower_components/angular-inview/angular-inview.js"></script>
+    <script src="bower_components/angular-lazycompile/dist/angular-lazycompile.min.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/libraries.min.js -->
+    <!-- bower:js -->
+    <script src="bower_components/isotope/jquery.isotope.min.js"></script>
+    <script src="bower_components/angular-lazycompile/src/angular-lazycompile.js"></script>
+    <script src="bower_components/angular-isotope/dist/angular-isotope.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js js/app.min.js -->
+    <script src="js/app.js"></script>
+    <!-- Utilities -->
+    <!-- socialApp -->
+    <script src="js/apps/socialApp/socialApp.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

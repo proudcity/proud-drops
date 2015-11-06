@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the ProudCity Pages feature.
+ */
+
+include_once 'proudcity_pages.features.inc';

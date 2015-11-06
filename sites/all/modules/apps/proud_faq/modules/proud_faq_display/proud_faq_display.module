@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Proud FAQ Display feature.
+ */
+
+include_once 'proud_faq_display.features.inc';

@@ -1,0 +1,17 @@
+name = Proud Admin
+description = Proud app to set up an administration dashboard
+core = 7.x
+package = Proud
+version = 7.x-1.0-beta1
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = google_analytics_embed
+dependencies[] = menu
+dependencies[] = panelizer
+dependencies[] = panels
+features[ctools][] = panelizer:panelizer:1
+features[features_api][] = api:2
+features[menu_custom][] = menu-admin
+features[menu_links][] = menu-admin_dashboard:user
+features[panelizer_defaults][] = user:user:default
+features[panelizer_defaults][] = user:user:default:default

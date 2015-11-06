@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function google_analytics_embed_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function google_analytics_embed_theme() {
+  //$path = drupal_get_path('module', 'google_analytics_embed');
+  global $base_url;
+  return array(
+    'google_analytics_embed_dashboard' => array(
+      'template' => 'templates/dashboard',
+      'variables' => array(
+        'code' => '',
+      )
+    ),
+  );
+}

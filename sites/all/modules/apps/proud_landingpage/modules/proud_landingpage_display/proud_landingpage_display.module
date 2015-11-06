@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Proud Landing Page Display feature.
+ */
+
+include_once 'proud_landingpage_display.features.inc';

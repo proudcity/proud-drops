@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function proud_news_install() {
+  $type = 'news';
+  if (module_exists('proud_core')) {
+    // Content Type Permissions
+    module_load_include('inc', 'proud_core', 'includes/proud_core.permissions');
+  	$permissions = proud_core_content_permissions($type, "proud_$type");
+  	proud_core_add_permissions($permissions);
+
+  	// Content Type settings
+  	module_load_include('inc', 'proud_core', 'includes/proud_core.settings');
+  	proud_core_content_settings($type);
+  	variable_set("pathauto_node_$type_pattern", "newss/[node:title]");
+
+	  // Enable *_display submodule
+  	proud_core_enable_display("proud_$type");
+  }
+
+}
+
+
+/*
+ * Implements hook_uninstall().
+ */
+function proud_news_uninstall() {
+  $type = 'news';
+  if (module_exists('proud_core')) {
+  	// Content Type settings
+  	module_load_include('inc', 'proud_core', 'includes/proud_core.settings');
+  	proud_core_content_settings($type, FALSE);
+  	variable_del("pathauto_node_$type_pattern");
+  }
+
+}
+

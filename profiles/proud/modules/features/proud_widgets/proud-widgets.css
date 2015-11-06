@@ -1,0 +1,18 @@
+/* Media Browser */
+body.page-media-browser {
+  height: auto;
+}
+
+/* File Widget */
+img.file-icon,
+div.file-widget img {
+  vertical-align: middle;
+}
+
+/**
+ * Hide the Media 'Edit' button when on a CTools dialog, because it will
+ * close the current CTools dialog. Remove once #2264187 is fixed.
+ */
+.ctools-modal-content .media-widget a.edit {
+  display: none;
+}

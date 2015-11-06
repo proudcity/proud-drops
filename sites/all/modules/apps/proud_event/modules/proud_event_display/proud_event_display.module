@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Proud Event Display feature.
+ */
+
+include_once 'proud_event_display.features.inc';

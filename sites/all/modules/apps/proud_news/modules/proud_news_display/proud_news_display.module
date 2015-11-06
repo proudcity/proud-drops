@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Code for the Proud News Display feature.
+ */
+
+include_once 'proud_news_display.features.inc';
+
+
+/**
+ * Implements hook_panels_pre_render
+ */
+/*
+function proud_news_display_panels_pre_render($panels_display, $renderer) {
+
+  // Are we an news node?
+  $news_node = isset($panels_display->context['panelizer']->data->type)
+                     && $panels_display->context['panelizer']->data->type == 'news';
+
+  // news full view
+  if($news_node && isset($renderer->address)) {
+    menu_tree_set_path('main-menu','news');
+  }
+}
+*/

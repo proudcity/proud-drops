@@ -1,0 +1,76 @@
+sudo: false
+
+php:
+  - 5.4
+
+env:
+  global:
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+install:
+
+  # Create MySQL Database
+  - "mysql -e 'create database drupal;'"
+
+  # Install Drush
+  - pear channel-discover pear.drush.org
+  - pear install drush/drush
+  - phpenv rehash
+
+  # Run composer
+  - composer install -d tests
+
+before_script:
+
+  # Install Kickstart Profile
+  - drush dl drupal-7.41
+  - mv drupal-7.41 www
+  - 
+  - cd www/profiles
+  - git clone --branch 7.x-1.x https://github.com/proudcity/proud.git
+  - cd proud
+  - drush verify-makefile drupal-org.make
+  - drush make --no-cache --drupal-org drupal-org.make .
+  - drush make libraries.make . --no-core --contrib-destination=.
+  - 
+  - cd ../../
+
+  # Setup display for selenium
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 5s
+
+  # Run the drush built in webserver.
+  - chmod u+x /home/travis/.phpenv/shims/drush
+  - ln -s /home/travis/.phpenv/shims/drush /usr/bin/drush
+  - drush --root=$PWD/www runserver --server=builtin 80 &
+  - sleep 5s # give Web server some time to bind to sockets, etc
+
+  # Run selenium
+  #- wget http://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar
+  #- java -jar selenium-server-standalone-2.25.0.jar -p 4444 > /dev/null 2>&1 &
+  #- sleep 5s
+
+script:
+  - cd tests/behat
+
+  # Set env variable for behat params.
+  - export BEHAT_PARAMS="extensions[Behat\MinkExtension\Extension][selenium2][wd_host]=$SAUCE_USERNAME:$SAUCE_ACCESS_KEY@ondemand.saucelabs.com/wd/hub"
+
+  # Setup sauce tunnel in the background and give it time to launch.
+  #- java -jar vendor/sauce/connect/lib/Sauce-Connect.jar -P 4445 $SAUCE_USERNAME $SAUCE_ACCESS_KEY --fast-fail-regexps "google.com,saucelabs.com,twitter.com, gstatic.com" > /dev/null 2>&1 &
+  - java -jar vendor/sauce/connect/lib/Sauce-Connect.jar -P 4445 $SAUCE_USERNAME $SAUCE_ACCESS_KEY > /dev/null 2>&1 &
+
+  #- java -jar vendor/sauce/connect/lib/Sauce-Connect.jar -P 4445 $SAUCE_USERNAME $SAUCE_ACCESS_KEY --fast-fail-regexps "google.com,saucelabs.com,twitter.com, gstatic.com" 2&>1 /dev/null
+  - sleep 45s
+
+  # Run behat tests
+  #- ./bin/behat --no-paths
+  - ./bin/behat -p Firefox-19 --no-paths
+
+  # Shut down the sauce tunnel
+  - kill $(ps aux | grep "Sauce-Connect" | grep -v 'grep' | awk '{print $2}')
