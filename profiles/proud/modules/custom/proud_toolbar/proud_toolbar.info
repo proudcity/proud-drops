@@ -1,5 +1,0 @@
-name = Proud Toolbar
-description = Provides a very basic Bootstrap-based toolbar
-core = 7.x
-package = Core
-version = VERSION

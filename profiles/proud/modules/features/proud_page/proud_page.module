@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Proud Page feature.
- */
-
-include_once 'proud_page.features.inc';

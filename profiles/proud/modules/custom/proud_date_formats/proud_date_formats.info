@@ -1,4 +1,0 @@
-name = "Proud Date Formats"
-package = "Proud"
-core = "7.x"
-description = "Creates and sets Date Formats and Date Types to typical North American defaults."
