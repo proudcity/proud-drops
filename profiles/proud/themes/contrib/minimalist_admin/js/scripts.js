@@ -34,6 +34,25 @@
         $(this).parent().find('label').attr('title', $(this).text()).addClass('label-help');
         $(this).hide();
       });
+
+      var scrollStart = 0;
+      var $element = $('.form-actions', context);
+      if($element.length) {
+        $(window).on('scroll', function () {
+          var offset = $element.offset();
+          var top = offset.top;
+          var scrollPosition = $(window).scrollTop();
+          if (top < scrollPosition) {
+            $element.addClass('top-fixed');
+            scrollStart = scrollPosition;
+          }
+          else if (scrollStart > scrollPosition) {
+            $element.removeClass('top-fixed');
+          }
+        });
+      }
+
+
     }
   };
 })(jQuery, Drupal);

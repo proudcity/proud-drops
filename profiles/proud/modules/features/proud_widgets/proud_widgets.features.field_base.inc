@@ -141,13 +141,32 @@ function proud_widgets_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_quick_links_links'
-  $field_bases['field_quick_links_links'] = array(
+  // Exported field_base: 'field_btn_icon'
+  $field_bases['field_btn_icon'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_quick_links_links',
+    'field_name' => 'field_btn_icon',
+    'indexes' => array(
+      'icon' => array(
+        0 => 'icon',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'fontawesome_field',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'fontawesome_field',
+  );
+
+  // Exported field_base: 'field_btn_link'
+  $field_bases['field_btn_link'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_btn_link',
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',

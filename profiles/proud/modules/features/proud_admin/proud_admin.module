@@ -31,26 +31,37 @@ function proud_admin_theme() {
   global $base_url;
   return array(
     'proud_admin_add_content' => array(
-      'template' => 'templates/add-content',
+      'template' => 'templates/proud-admin-add-content',
       'variables' => array(
         'dropdown' => '',
       )
     ),
+    'proud_admin_card' => array(
+      'template' => 'templates/proud-admin-card',
+      'variables' => array(
+        'link' => FALSE,
+        'markup' => '',
+      )
+    ),
+    'proud_admin_button' => array(
+      'template' => 'templates/proud-admin-button',
+      'variables' => array(
+        'href' => '#',
+        'icon' => '',
+      )
+    ),
+    'proud_admin_dropdown' => array(
+      'template' => 'templates/proud-admin-dropdown',
+      'variables' => array(
+        'links' => array(),
+      )
+    ),
     'proud_admin_add_content_dropdown' => array(
-      'template' => 'templates/add-content-dropdown',
+      'template' => 'templates/proud-admin-add-content-dropdown',
       'variables' => array(
         'types' => proud_admin_node_types(),
       )
     ),
-    'proud_admin_button' => array(
-      'template' => 'templates/button',
-      'variables' => array(
-        'link' => FALSE,
-        'icon' => '',
-        'markup' => '',
-      )
-    ),
-
     
   );
 }

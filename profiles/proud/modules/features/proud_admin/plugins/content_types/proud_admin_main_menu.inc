@@ -5,7 +5,7 @@ $plugin = array(
   'single' => TRUE,  
   'title' => t('Manage main menu'),
   'description' => t('Manage main menu link'),
-  'category' => t('Widgets'),
+  'category' => t('Administration'),
   'render callback' => 'proud_admin_manage_menu_render', 
   'all contexts' => TRUE, // This is NEEDED to be able to use substitution strings in your pane.
 );

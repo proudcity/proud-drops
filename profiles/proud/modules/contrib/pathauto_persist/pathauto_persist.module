@@ -4,9 +4,27 @@
  * Implements hook_entity_load().
  */
 function pathauto_persist_entity_load($entities, $type) {
+  // Statically cache which entity types have data in the pathauto_persist
+  // table to avoid unnecessary queries for entities that would not have any
+  // data anyway.
+  static $loadable_types;
+  if (!isset($loadable_types)) {
+    $loadable_types = &drupal_static(__FUNCTION__);
+    if (!isset($loadable_types)) {
+      $loadable_types = db_query("SELECT DISTINCT entity_type FROM {pathauto_persist}")->fetchCol();
+    }
+  }
+  if (!in_array($type, $loadable_types)) {
+    return;
+  }
+
   $states = pathauto_persist_entity_state_load_multiple($type, array_keys($entities));
   foreach ($states as $id => $state) {
-    if (!isset($entities[$id]->path['pathauto'])) {
+    if (!isset($entities[$id]->path)) {
+      $entities[$id]->path = array();
+    }
+
+    if (is_array($entities[$id]->path) && !isset($entities[$id]->path['pathauto'])) {
       $entities[$id]->path['pathauto'] = $state;
     }
   }
@@ -89,4 +107,5 @@ function pathauto_persist_entity_state_save($entity_type, $entity, $pathauto_sta
       'pathauto' => $pathauto_state ? 1 : 0,
     ))
     ->execute();
+  drupal_static_reset('pathauto_persist_entity_load');
 }

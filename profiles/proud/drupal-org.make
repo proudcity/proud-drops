@@ -20,7 +20,7 @@ projects[menu_trail_by_path][subdir] = "contrib"
 projects[devel][version] = "1.5"
 projects[devel][subdir] = "devel"
 
-projects[features][version] = "2.6"
+projects[features][version] = "2.7"
 projects[features][subdir] = "contrib"
 
 projects[email][version] = "1.3"
@@ -29,7 +29,7 @@ projects[email][subdir] = "contrib"
 projects[link][version] = "1.3"
 projects[link][subdir] = "contrib"
 
-projects[field_collection][version] = "1.0-beta8"
+projects[field_collection][version] = "1.0-beta10"
 projects[field_collection][subdir] = "contrib"
 
 projects[entity][version] = "1.6"
@@ -41,8 +41,11 @@ projects[libraries][subdir] = "contrib"
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
 
-projects[pathauto][version] = "1.2"
+projects[pathauto][version] = "1.3"
 projects[pathauto][subdir] = "contrib"
+
+projects[pathauto_persist][version] = "1.4"
+projects[pathauto_persist][subdir] = "contrib"
 
 projects[redirect][version] = "1.0-rc3"
 projects[redirect][subdir] = "contrib"
@@ -56,7 +59,7 @@ projects[token][subdir] = "contrib"
 projects[metatag][version] = "1.7"
 projects[metatag][subdir] = "contrib"
 
-projects[google_analytics][version] = "1.4"
+projects[google_analytics][version] = "2.1"
 projects[google_analytics][subdir] = "contrib"
 
 projects[simplehtmldom][version] = "1.12"
@@ -77,11 +80,11 @@ projects[menu_block][subdir] = "contrib"
 projects[menu_trail_by_path][version] = "2.0"
 projects[menu_trail_by_path][subdir] = "contrib"
 
-projects[pathauto_persist][version] = "1.3"
-projects[pathauto_persist][subdir] = "contrib"
-
 projects[media_formatters][version] = "1.0-alpha2"
 projects[media_formatters][subdir] = "contrib"
+
+projects[helpful_formatters][version] = "1.0-alpha2"
+projects[helpful_formatters][subdir] = "contrib"
 
 projects[angular_media][version] = "1.0-alpha1"
 projects[angular_media][subdir] = "contrib"
@@ -104,11 +107,8 @@ projects[media][subdir] = "contrib"
 projects[creative_commons][version] = "1.2"
 projects[creative_commons][subdir] = "contrib"
 
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 projects[jquery_update][subdir] = "contrib"
-
-projects[panels_extra_styles][version] = 1.1
-projects[panels_extra_styles][subdir] = contrib
 
 projects[addthis][version] = "4.0-alpha6"
 projects[addthis][subdir] = "contrib"
@@ -187,17 +187,33 @@ projects[bootstrap_fieldable_panel_panes][download][type] = git
 projects[bootstrap_fieldable_panel_panes][download][branch] = "7.x-1.x"
 projects[bootstrap_fieldable_panel_panes][download][url] = http://git.drupal.org/sandbox/jlyon/2564689.git
 
+projects[proud_panels][type] = module
+projects[proud_panels][subdir] = "contrib"
+projects[proud_panels][download][type] = git
+projects[proud_panels][download][branch] = "7.x-1.x"
+projects[proud_panels][download][url] = http://git.drupal.org/project/proud_panels.git
+
 
 ; *********************************************************************************
 ; * Themes
 ; *********************************************************************************
 
-projects[radix][version] = "3.0-rc2"
+projects[radix][version] = "3.0-rc4"
 projects[radix][subdir] = "contrib"
 
-; @todo: updates pending
-projects[minimalist_admin][version] = "1.0-alpha5"  
+; @todo: put on stable tag release
+projects[proudtheme][type] = "theme"
+projects[proudtheme][subdir] = "contrib"
+projects[proudtheme][download][type] = git
+;projects[proudtheme][download][branch] = "a5ac63e"
+projects[proudtheme][download][url] = http://git.drupal.org/project/proudtheme.git
+
+; @todo: put on stable tag release
+projects[minimalist_admin][type] = "theme"
 projects[minimalist_admin][subdir] = "contrib"
+projects[minimalist_admin][download][type] = git
+;projects[minimalist_admin][download][branch] = "bcf027a"
+projects[minimalist_admin][download][url] = http://git.drupal.org/project/minimalist_admin.git
 
 
 ; *********************************************************************************

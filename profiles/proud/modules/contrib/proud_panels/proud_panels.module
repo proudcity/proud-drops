@@ -1,0 +1,745 @@
+<?php
+/**
+ * @file
+ * Code for the Proud Layouts module.
+ */
+
+// Panopoly-widgets code
+include_once('includes/widgets.inc');
+
+
+/**
+ * Implementation of hook_ctools_plugin_directory()
+ */
+function proud_panels_ctools_plugin_directory($module, $plugin) {
+  return 'plugins/' . $plugin;
+}
+
+/**
+ * Preprocess the primary entry level theme.
+ * @todo: We should probably be doing alot of this in proud_panels_ctools_content_subtype_alter() (widgets.inc)
+ */
+function proud_panels_preprocess_panels_add_content_modal(&$vars) {
+  array_merge($vars['categories']['views']['content'], $vars['categories']['views-panes']['content']);
+
+  //dpm($vars['categories']);
+
+  $categories = array(
+    'new' => array(
+      'title' => t('New'),
+      'icon' => 'fa-plus-circle',
+      'content' => $vars['categories']['root']['content'],
+    ),
+    'page-content' => array(
+      'title' => t('Content fields'),
+      'icon' => 'fa-file',
+      'content' => proud_panels_merge(array(
+        $vars['categories']['page-content'],
+        $vars['categories']['node'], //@ todo: does including this and page-content create dupes?
+        $vars['categories']['taxonomy-term'],
+        $vars['categories']['fieldable-panels-pane'],
+      )),
+    ),
+    'views' => array(
+      'title' => t('Views'),
+      'icon' => 'fa-list',
+      'content' => $vars['categories']['view-panes']['content'],
+    ),
+    'blocks' => array(
+      'title' => t('Blocks'),
+      'icon' => 'fa-th-large',
+      'content' => $vars['categories']['blocks']['content'],
+    ),
+    'administration' => array(
+      'title' => t('Administration'),
+      'icon' => 'fa-cogs',
+      'content' => $vars['categories']['administration']['content'],//$vars['categories']['node-content']['content'],
+    ),
+  );
+
+  // Clear out some of the New ("root") panes
+  unset($categories['new']['content']['New custom content']);
+  unset($categories['new']['content']['Content list']);
+  unset($categories['new']['content']['Content item']);
+
+  // Clear out a lot of the page-content panes
+  unset($categories['page-content']['content']['Node links']);
+  unset($categories['page-content']['content']['Attached files']);
+  unset($categories['page-content']['content']['Node terms']);
+  unset($categories['page-content']['content']['Node body']);
+  unset($categories['page-content']['content']['Node type description']);
+  unset($categories['page-content']['content']['Node last updated date']);
+  unset($categories['page-content']['content']['Node content']);
+  unset($categories['page-content']['content']['Node links']);
+
+  // Add views exposed forms only to the Views category
+  $categories['views']['content'] += proud_panels_merge(array($vars['categories']['views']), 'Exposed form:');
+
+  // Add some page elements to the Blocks category
+  $categories['blocks']['content'] += proud_panels_merge(array(
+    $vars['categories']['page-elements'],
+  ), array(
+    'Site logo', 'Site name', 'Site slogan',
+  ));
+
+  // Add icons, adjust field titles to make them more friendly
+  foreach ($categories as $key => $category) { 
+    foreach ($category['content'] as $item_key => $item) {
+      $item['title'] = proud_panels_title_sanitize($item['title']);    
+      //$categories[$key]['content'][$item_key]['fa_icon'] = 'asdf';//proud_panels_iconize($item['title']);
+      $categories[$key]['content'][$item_key]['title'] = $item['title'];
+    }
+  }
+
+  // Allow calls to hook_proud_panels_categories_alter().
+  drupal_alter('proud_panels_categories', $categories);
+  
+  //dpm($categories);
+  //dpm($vars['categories']);
+  
+  $vars['categories'] = $categories;
+  
+}
+
+
+/**
+* @ TODO move to different module 
+ * Implements hook_entity_info_alter(). @TODO move to more appropriate module
+ *
+ * Defines the field-able pane for bootstrap imagecollections
+ * @link( Bootstrap JS, http://getbootstrap.com/javascript/)
+ */
+function proud_panels_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['card'] = array(
+    'label' => t('Card'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['node']['view modes']['list'] = array(
+    'label' => t('List item'),
+    'custom settings' => TRUE,
+  );
+}
+
+
+/**
+ * Returns an icon for a pane label.
+ **/
+function proud_panels_iconize($string) {
+  $data = array(
+    'Divider' => 'fa-minus',
+    'Text' => 'fa-font',
+    'Tabs' => 'fa-columns',
+    'Accordion' => 'fa-bars',
+    'Carousel' => 'fa-camera-retro',
+    'Card' => 'fa-sticky-note-o',
+    'Text' => 'fa-font',
+    'Media' => 'fa-picture-o',
+    'Links' => 'fa-link',
+    'Submenu' => 'fa-content-item',
+    'Existing node' => 'fa-file-text',
+    'Main menu' => 'fa-bars',
+    //'Submenu' => 'fa-th-list',
+    'Sidebar' => 'fa-columns',
+    '311 actions box' => 'fa-wrench',
+    '311 actions menu' => 'fa-list-ul',
+    'Site name' => 'fa-bold',
+    'Site slogan' => 'fa-italic',
+    'Site logo' => 'fa-picture-o',
+    'Social feed' => 'fa-comments',
+    'Google Translate dropdown' => 'fa-globe',
+    'Font size dropdown' => 'fa-font',
+    'Share dropdown' => 'fa-share-alt',
+    'News list' => 'fa-newspaper-o',
+    'News teasers' => 'fa-file-text',
+    'Event list' => 'fa-calendar',
+    'Event teasers' => 'fa-calendar-o',
+    'Landing page children' => 'fa-list',
+    'Content' => 'fa-list',
+    'Icon button' => 'fa-flag',
+  );
+  $short = str_replace('Field', '', strip_tags($string));
+  $icon = !empty($data[$string]) ? $data[$string] : 
+    !empty($data[$short]) ? $data[$short] : NULL;
+
+  return !empty($icon) ? $icon : 'fa-square-o';
+}
+
+/**
+ * Adds link to example.
+ **/
+function proud_panels_add_pattern_link($text, $link) {
+  $url = variable_get('proud_panels_pattern_library', 'http://pattern.getproudcity.com/');
+  if ($url != FALSE) {
+    return t($text .' !link', array('!link' => '<small>| '. l('example &raquo;', $url, array('fragment' => 'sg-'.$link, 'html'
+       => TRUE, 'target' => 'pattern_exmaple')) .'</small>'));
+  }
+  return $text;
+}
+
+/**
+ * Cleanup certain title name patterns
+ **/
+function proud_panels_title_sanitize($string) {
+  if (strpos($string, 'Field:') !== FALSE) {
+    $string = str_replace('Field: ', '', preg_replace("/\([^)]+\)/","", $string)) . ' <small>Field</small>';
+  }
+  if (strpos($string, 'Exposed form:') !== FALSE) {
+    $string = str_replace(array('Exposed form: ', '-panel_pane_1', '-panel_pane_2'), '', $string);
+    $string = ucfirst($string) . ' <small>Form</small>';
+  }
+  if (strpos($string, 'Add ') !== FALSE) {
+    $string = ucfirst(str_replace('Add ', '', $string));
+  }
+  return $string;
+}
+
+/**
+ * Combine multiple category arrays and filter.
+ **/
+function proud_panels_merge($contents, $filter = FALSE) {
+  $return = array();
+  foreach ($contents as $content) {
+    if (!empty($content['content'])) {
+      foreach ($content['content'] as $key => $item) {
+        if (is_array($filter)) {
+          foreach ($filter as $needle) {
+            $found = FALSE;
+            if (strpos($key, $needle) !== FALSE) {
+              $found = TRUE;
+            }
+            if ($found) {
+              $return[$key] = $item;
+            }
+          }
+        }
+        elseif ($filter === FALSE || strpos($key, $filter) !== FALSE) {
+          $return[$key] = $item;
+        }
+      }
+    }
+  }
+  return $return;
+}
+ 
+
+/**************************************************************
+* Theme callbacks
+**/
+
+/**
+ * Render region callback.
+ *
+ * - Wrapper: Element.
+ * - Wrapper: Raw.
+ */
+function theme_proud_panels_wrapper_render_region($vars) {
+  $content = $vars['panes'];
+  $settings = $vars['settings'];
+
+  // Theme.
+  if (!empty($settings['theme']) && $settings['theme']) {
+    $output = theme('panels_default_style_render_region', $vars);
+  }
+  else {
+    $output = implode(PHP_EOL, $content);
+  }
+
+  // Content is wrapped AFTER sending to Panels theming. This behavior is
+  // different than with panes.
+  if (!empty($output)) {
+    $settings['content']['element'] = $settings['element'];
+    $content_wrapper = _proud_panels_wrapper_wrap(!empty($settings['content']) ? $settings['content'] : array());
+    $output
+      = $content_wrapper['prefix'] .
+        $output .
+        $content_wrapper['suffix'];
+  }
+
+  return $output;
+}
+
+/**
+ * Render pane callback.
+ *
+ * - Wrapper: Element.
+ * - Wrapper: Raw.
+ */
+function theme_proud_panels_wrapper_render_pane($vars) {
+  $content = &$vars['content'];
+  $settings = $vars['settings'];
+
+  // Content is wrapped BEFORE sending to Panels theming. This behavior is
+  // different than with regions.
+  if (!empty($content->content)) {
+    $title_wrapper = _proud_panels_wrapper_wrap($settings);
+    $content->content
+      = $title_wrapper['prefix'] .
+        render($content->content) .
+        $title_wrapper['suffix'];
+  }
+  // @todo
+  /*if (!empty($content->title)) {
+    $content_wrapper = _proud_panels_wrapper_wrap(!empty($settings['content']) ? $settings['content'] : array());
+    $content->content
+      = $content_wrapper['prefix'] .
+        render($content->content) .
+        $content_wrapper['suffix'];
+  }*/
+
+  // Theme.
+  if (!empty($settings['theme']) && $settings['theme']) {
+    $output = theme('panels_pane', $vars);
+  }
+  else {
+    $title = !empty($content->title) ? $content->title : NULL;
+    $content = !empty($content->content) ? $content->content : NULL;
+    $output = $title . $content;
+  }
+
+  return $output;
+}
+
+/**
+ * Wrap it, wrap it real good.
+ *
+ * @return array
+ *   Array with prefix and suffix keys.
+ */
+function _proud_panels_wrapper_wrap($item = array()) {
+  $wrap['prefix'] = NULL;
+  $wrap['suffix'] = NULL;
+  $wrap['attributes'] = NULL;
+
+  if (!empty($item['attributes'])) {
+    foreach ($item['attributes'] as $key => $value) {
+      if (!empty($value)) {
+        $wrap['attributes'] .= " $key=\"$value\"";
+      }
+    }
+  }
+
+  if (!empty($item['element']) && $item['element'] != 'no_wrapper') {
+    $wrap['prefix'] = '<' . $item['element'] . $wrap['attributes'] . '>';
+    $wrap['suffix'] = '</' .  $item['element'] . '>';
+  }
+
+  if (!empty($item['prefix'])) {
+    $wrap['prefix'] = $item['prefix'];
+  }
+  if (!empty($item['suffix'])) {
+    $wrap['suffix'] = $item['suffix'];
+
+  }
+
+  // Tidy.
+  $wrap['prefix'] = PHP_EOL . $wrap['prefix'];
+  $wrap['suffix'] = $wrap['suffix'] . PHP_EOL;
+
+  return $wrap;
+}
+
+/**
+ * Attribute options for settings forms.
+ */
+function _proud_panels_wrapper_attribute_options($default_value = array()) {
+  $options = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $options['class'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Class'),
+    '#description' => t('CSS classes to apply to the element, separated by spaces.'),
+    '#default_value' => isset($default_value['class']) ? $default_value['class'] : '',
+  );
+
+  $options['id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Id'),
+    '#description' => t('CSS id to apply to the element, without the hash.'),
+    '#default_value' => isset($default_value['id']) ? $default_value['id'] : '',
+  );
+
+  return $options;
+}
+
+
+/**
+ * Implements hook_form_alter().
+ * Lots of little tweaks to forms
+ **/
+function proud_panels_form_alter(&$form, &$form_state, $form_id) {
+  _proud_panels_form_alter($form, $form_state, $form_id);
+  //dpm($form_id);
+  //dpm($form_state['conf']);
+
+  switch ($form_id) {
+    // Set default page title to "hide title" in Panelizer
+    case 'panelizer_edit_content_form':
+      if ($form['display_title']['title']['#default_value'] == '%node:title') {
+        $form['display_title']['hide_title']['#default_value'] = 1;
+      }
+      break;
+
+    // Hide Title tag/CSS/ID fields on Node Title field
+    case 'ctools_node_title_content_type_edit_form':
+      $form['override_title']['#default_value'] = 1;
+      $form['override_title']['#access'] = FALSE;
+      $form['override_title_text']['#access'] = FALSE;
+      $form['override_title_heading']['#access'] = FALSE;
+      $form['override_title_markup']['#access'] = FALSE;
+      $form['id']['#access'] = FALSE;
+      $form['class']['#access'] = FALSE;
+      $form['markup']['#access'] = FALSE;
+      break;
+
+    // Set the label to disabled by default
+    // Set default formatter for media
+    // @todo: strip down this form, fix logic here.   
+    case 'ctools_entity_field_content_type_formatter_options':
+      $form['label']['#default_value'] = 'hidden';
+
+      if ($form['formatter']['#default_value'] == 'file_default' && !empty($form['formatter']['#options']['flexible_media'])) {
+        $form['formatter']['#default_value'] == 'flexible_media';
+        // @todo: limit formatter options (maybe in another hook_)
+      }
+      break;
+  }
+}
+
+
+/**
+ * Implements hook_form_alter().
+ * Strip down the panel style options
+ **/
+function proud_panels_form_panels_edit_style_type_form_alter(&$form, &$form_state) {
+  $exclude = array(
+    'naked',
+    'default',
+    'rounded_corners',
+    'custom',
+    'list',
+    'block',
+  );
+  foreach ($form['style']['#options'] as $key=>$label) {
+    if (in_array($key, $exclude)) {
+      unset($form['style']['#options'][$key]);
+    }
+  }
+  unset($form['style']['#title']);
+  $form['style']['#options'][-1] = t('Default');
+  $form['style']['#options']['custom'] = t('Custom');
+
+  foreach ($form['style']['#options'] as $key=>$label) {
+    $img = $key == -1 ? 'default' : $key;
+    $form['style']['#options'][$key] = theme('proud_panels_style_option', array('key' => $img, 'label' => $label));
+  }
+
+  $form['style']['#field_prefix'] = '<div class="card-columns card-columns-sm-3 card-columns-md-4 card-columns-xs-2 card-columns-equalize">';
+  $form['style']['#field_suffix'] = '</div>';
+
+  $form['#attached']['css'][] = drupal_get_path('module', 'proud_panels') .'/css/proud-panels-admin.css';
+}
+
+
+/**
+ * Implements hook_form_alter().
+ * Limit options on layout chooser.
+ **/
+function proud_panels_form_panelizer_choose_layout_form_alter(&$form, &$form_state) {
+  $form['categories']['#options'] = array(
+    'Proud' => t('Proud'),
+    'Proud-advanced' => t('Proud advanced'),
+  );
+  if ($form['categories']['#default_value'] != 'Proud' && $form['categories']['#default_value'] != 'Proud-advanced') {
+    $form['categories']['#default_value'] = 'Proud';
+  }
+  //$form['categories']['#attributes']['style'] = 'display:none;';
+  //$form['#attached']['css'][] = drupal_get_path('module', 'proud_panels') .'/css/proud-panels-admin.css';
+  //dpm($form);
+}
+
+
+/**
+ * Implements hook_form_alter().
+ **/
+/*function proud_panels_form_panelizer_choose_layout_form_alter(&$form, &$form_state) {
+  //dpm($form);
+}*/
+
+/**
+ * Implements hook_form_alter().
+ **/
+/*function proud_panels_form_panels_ipe_edit_control_form_alter(&$form, &$form_state, $form_id) {
+  //dpm($form);
+}*/
+
+
+
+
+/******************************* THEME ***************************** */
+
+/**
+ * Implements hook_theme().
+ */
+function proud_panels_theme() {
+  $path = 'templates/';
+  return array(
+    'proud_panels_style_option' => array(
+      'template' => $path . 'proud-panels-style-option',
+      'variables' => array(
+        'key' => '',
+        'label' => '',
+        'img_path' => url(drupal_get_path('module', 'proud_panels') . '/images/styles/'),
+      ),
+    ),
+    'proud_panels_pane_translate' => array(
+      'template' => $path . 'proud-panels-pane-translate',
+      'variables' => array(
+      ),
+    ),
+    'proud_panels_pane_font_size' => array(
+      'template' => $path . 'proud-panels-pane-font-size',
+      'variables' => array(
+      ),
+    ),
+    'proud_panels_pane_share' => array(
+      'template' => $path . 'proud-panels-pane-share',
+      'variables' => array(
+        'url' => '',
+        'title' => '',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess() to add Google Translate js.
+ */
+function template_preprocess_proud_panels_pane_translate(&$variables) {
+  drupal_add_js('//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit', 'external');
+  drupal_add_js(drupal_get_path('module', 'proud_panels') .'/js/proud-panels-pane-translate.js', 'file');
+}
+
+/**
+ * Implements hook_preprocess() to add Font size js.
+ */
+function template_preprocess_proud_panels_pane_font_size(&$variables) {
+  drupal_add_js(drupal_get_path('module', 'proud_panels') .'/js/proud-panels-pane-font-size.js', 'file');
+}
+
+/**
+ * Implements hook_preprocess() to add Font size js.
+ */
+function template_preprocess_proud_panels_pane_share(&$variables) {
+  $variables['url'] = $current_url = url(current_path(), array('absolute' => TRUE, 'query' => drupal_get_query_parameters()));
+  $variables['title'] = t('!title from !sitename', array('!title' => drupal_get_title(), '!sitename' => variable_get('site_name', '')));
+}
+
+
+/**
+ * Implements hook_preprocess().
+ */
+function proud_panels_preprocess_panels_pane(&$vars) {
+  // Respect the "hide_title" option
+  // @todo: should this be in proudtheme?
+  if (is_object($vars['display']) && $vars['display']->hide_title) {
+    unset($vars['title']);
+  }
+
+  // Fix the view title
+  if ($vars['pane']->type == 'views_panes') {
+    if (!empty($vars['pane']->configuration['override_title_text']) && empty($vars['title'])) {
+      $vars['title'] = $vars['pane']->configuration['override_title_text'];
+    }
+  }
+
+}
+
+
+/**
+ * Implements hook_fieldable_panels_pane_view().
+ * Make title work with FPP.
+ */
+function proud_panels_fieldable_panels_pane_view($entity, $view_mode, $langcode) {
+  // @todo: make title a link??
+  $entity->content['title'] = $entity->title;
+}
+
+
+
+
+
+
+
+//******************************************************************
+
+// Panels workflow
+
+//******************************************************************
+
+// @todo: do we want this?  Jeff L Mar 2015
+/**
+ * Implements hook_panels_pane_content_alter().
+ */
+/*
+function proud_core_panels_pane_content_alter($content, $pane, $args, $context) {
+  
+  // only display the link to people with adequate permissions, obviously
+  if ( user_access('change layouts in place editing') 
+    && isset($content->module)
+    && $content->module == 'panels_mini'
+  ) {
+    
+    $delta = $content->delta;
+    $mini_panel = panels_mini_load($delta);
+    $url = 'admin/structure/mini-panels/list/'. $delta .'/edit/content';
+    $title = $mini_panel->admin_title;
+    
+    $content_addition = '<p class="col-xs-12 edit-mini-panel-link">'
+                      . l('Edit '. $title, $url, array('attributes' => array('class' => array('btn', 'btn-warning', 'btn-xs'))))
+                      . '</p>';
+
+    // Prepend edit link to content
+    $content->content =  $content_addition . $content->content;
+  }
+
+
+  //dpm($content);
+}
+
+*/
+
+
+
+
+
+
+/**
+ * Implements MODULE_preprocess_HOOK() for panels_pane.
+ *
+ * It would be cleaner to just preprocess the CPS pane theme hook, but that
+ * doesn't work because Panels overwrites the 'classes_array' variable, grr!
+ */
+/*
+function proud_panels_preprocess_panels_pane(&$vars) {
+  if (isset($vars['pane']->style['style']) &&
+      _proud_panels_is($vars['pane']->style['style'])) {
+    _proud_panels_preprocess(
+      $vars,
+      $vars['classes_array'],
+      'pane',
+      $vars['pane']->pid);
+  }
+}
+*/
+
+/**
+ * Implements template_preprocess_HOOK() for proud_panels_region.
+ */
+/*
+function template_preprocess_proud_panels_region(&$vars) {
+  if (!isset($vars['attributes_array']['class'])) {
+    $vars['attributes_array']['class'] = array();
+  }
+  _proud_panels_preprocess(
+    $vars,
+    $vars['attributes_array']['class'],
+    'region',
+    $vars['region_id']);
+
+  // Add a helpful class.
+  $vars['content_attributes_array']['class'][] = 'cps-region-inner';
+}
+
+/**
+ * Adds CSS to response; Adds classes to the template variable or JS settings.
+ *
+ * @param array $vars
+ *   The template variables.
+ * @param array $classes
+ *   The subelement of $vars to be updated with CPS classes.
+ * @param string $type
+ *   Pane or region.
+ * @param string $id
+ *   The unique ID of the pane or region.
+ */
+/*
+function _proud_panels_preprocess(array &$vars, array &$classes, $type, $id) {
+  // Add Classy Panel Styles CSS.
+  _proud_panels_add_css();
+
+  // For IPE, let javascript inject the classes.
+  if ($vars['display']->renderer_handler instanceof panels_renderer_ipe) {
+    drupal_add_js(drupal_get_path('module', 'proud_panels')
+      . '/js/proud_panels.js');
+    _proud_panels_apply(
+      $type,
+      $id,
+      'proud_panels:cps_default',
+      $vars['settings'],
+      'panels_renderer_ipe'
+    );
+    return;
+  }
+
+  // Filter out disabled styles.
+  $filtered = _proud_panels_filter_conf($vars['settings']);
+
+  // Combine with existing classes, if any.
+  $classes = empty($classes) ? $filtered : array_unique(array_merge($classes, $filtered));
+}
+
+/**
+ * Implements template_process_HOOK() for proud_panels_pane.
+ */
+/*
+function template_process_proud_panels_pane(&$vars) {
+  $vars['content'] = theme('panels_pane', $vars);
+}
+
+/**
+ * Implements template_process_HOOK() for proud_panels_region.
+ */
+/*
+function template_process_proud_panels_region(&$vars) {
+  // Determine in which style to render this region.
+  $hook = variable_get(proud_panels_REGION_STYLE,
+    'panels_default_style_render_region');
+
+  // Generate the standard region markup.
+  $vars['content'] = theme($hook, $vars);
+}
+
+/**
+ * Theme callback for proud_panels_pane.
+ */
+/*
+function theme_proud_panels_pane(&$vars) {
+  return $vars['content'];
+}
+
+/**
+ * Theme callback for proud_panels_region.
+ */
+/*
+function theme_proud_panels_region(&$vars) {
+  if (empty($vars['content'])) {
+    return;
+  }
+  $markup   = $vars['content'];
+  $wrappers = array(
+    'content_attributes_array',
+    'attributes_array',
+  );
+  foreach ($wrappers as $wrapper) {
+    if (!empty($vars[$wrapper])) {
+      $attributes = drupal_attributes($vars[$wrapper]);
+      $markup     = "<div$attributes>$markup</div>";
+    }
+  }
+  return $markup;
+}
+*/

@@ -17,6 +17,12 @@ function proud_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'card' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -32,6 +38,12 @@ function proud_page_field_default_field_instances() {
         'weight' => 3,
       ),
       'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'list' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -86,6 +98,12 @@ function proud_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'card' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'file',
@@ -101,6 +119,12 @@ function proud_page_field_default_field_instances() {
         'weight' => 4,
       ),
       'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'list' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -166,12 +190,24 @@ function proud_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'card' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_default',
         'weight' => 5,
+      ),
+      'list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'live_results_search' => array(
         'label' => 'above',
@@ -234,6 +270,12 @@ function proud_page_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'card' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -249,6 +291,12 @@ function proud_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'list' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

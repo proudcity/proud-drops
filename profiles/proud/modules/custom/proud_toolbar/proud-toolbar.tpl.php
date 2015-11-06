@@ -28,7 +28,8 @@
 
   <div class="navbar-header">
     <button class="navbar-toggle" data-target="#navbar-collapse" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
-    
+    <a class="dropdown-toggle navbar-brand pull-left" id="proud-home-bar" data-toggle="dropdown" aria-expanded="true"><?php print render($toolbar['toolbar_proud_image']); ?></a>
+    <?php print render($toolbar['toolbar_proudcity']); ?>
   </div><!-- /.navbar-header -->
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -46,8 +47,16 @@
           </li>
         </ul>
       </div>
-      
       <?php print str_replace('class="menu', 'id="proud-navbar-main-menu" class="menu navbar-nav', render($toolbar['toolbar_menu'])); ?>
+      <ul id="proud-toolbar-new" class="nav navbar-nav">
+        <li class="dropdown">
+            <a class="dropdown-toggle" id="proud-city-new" data-toggle="dropdown" aria-expanded="true">
+              <?php print $toolbar['toolbar_content_label']; ?>
+              <span class="caret"></span>
+            </a>
+            <?php print render($toolbar['toolbar_content']); ?>
+        </li>
+      </ul>
     </div><!-- /#secondary-menu -->
   </div><!-- /.navbar-collapse -->
 </nav>

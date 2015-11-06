@@ -1,0 +1,136 @@
+<?php
+
+/**
+ * @file
+ * Provides common libraries for the repo
+ */
+
+/**
+ * Implements hook_library().
+ */
+function proud_libraries_library() {
+
+  $libraries['lodash'] = array(
+    'title' => 'Lodash',
+    'website' => 'http://getproudcity.com',
+    'version' => '0.1',
+    'js' => array(
+      libraries_get_path('lodash') . '/lodash.min.js' => array('scope' => 'header', 'weight' => 0)
+    )
+  );
+
+  $js_settings = array('scope' => 'footer', 'weight' => 0);
+
+  $libraries['waitForImages'] = array(
+    'title' => 'Equalize Height',
+    'website' => 'https://github.com/alexanderdickson/waitForImages',
+    'version' => '2.1.0',
+    'js' => array(
+      libraries_get_path('waitForImages') . '/dist/jquery.waitforimages.min.js'  => $js_settings
+    )
+  );
+
+  $libraries['equalizeHeight'] = array(
+    'title' => 'Equalize Height',
+    'website' => 'https://github.com/aschmoe/jquery.equalizeHeight',
+    'version' => '0.1',
+    'js' => array(
+      libraries_get_path('jquery.equalizeHeight') . '/jquery.equalizeHeight.js' => $js_settings
+    )
+  );
+
+  // Angular.js
+  $angular_path = libraries_get_path('angular');
+  $libraries['angular'] = array(
+    'title' => 'Angular',
+    'website' => 'http://getproudcity.com',
+    'version' => '0.1',
+    'js' => array(
+      $angular_path . '/angular/angular.min.js' => $js_settings
+    )
+  );
+
+  // Angular core has sanitize, resource, bindonce
+  $js_settings['weight']++;
+  $libraries['angular-core'] = array(
+    'title' => 'Angular core scripts',
+    'website' => 'http://getproudcity.com',
+    'version' => '0.1',
+    'js' => array(
+      $angular_path . '/angular-resource/angular-resource.min.js' => $js_settings,
+      $angular_path . '/angular-sanitize/angular-sanitize.min.js' => $js_settings,
+      $angular_path . '/angular-touch/angular-touch.min.js' => $js_settings
+    )
+  );
+
+  // Angular core has angular, sanitize, resource, bindonce
+  $js_settings['weight']++;
+  $libraries['angular-router-animate'] = array(
+    'title' => 'Angular router animate scripts',
+    'website' => 'http://getproudcity.com',
+    'version' => '0.1',
+    'js' => array(
+      $angular_path . '/angular-ui-router/release/angular-ui-router.min.js' => $js_settings,
+      $angular_path . '/angular-animate/angular-animate.min.js' => $js_settings
+    )
+  );
+
+  $js_settings['weight']++;
+  $libraries['angular-lazy'] = array(
+    'title' => 'Angular lazy loading scripts',
+    'website' => 'http://getproudcity.com',
+    'version' => '0.1',
+    'js' => array(
+      $angular_path . '/angular-inview/angular-inview.js' => $js_settings,
+      $angular_path . '/angular-lazycompile/dist/angular-lazycompile.min.js' => $js_settings
+    )
+  );
+
+
+  return $libraries;
+}
+
+
+/**
+ * Helper function loads angular scripts().
+ */
+function proud_libraries_load_angular($core = true, $router_animate = false, $lazy = true, $lodash = true) {
+  // Load angular
+  drupal_add_library('proud_libraries', 'angular');
+  // Core?
+  if($core) {
+    drupal_add_library('proud_libraries', 'angular-core');
+  }
+  // Router?
+  if($router_animate) {
+    drupal_add_library('proud_libraries', 'angular-router-animate');
+  }
+  if($lazy) {
+    drupal_add_library('proud_libraries', 'angular-lazy');
+  }
+  // Lodash?
+  if($lodash) {
+    drupal_add_library('proud_libraries', 'lodash');
+  }
+}
+
+/**
+ * Helper function loads common proud scripts().
+ */
+function proud_libraries_load_common() {
+  drupal_add_library('proud_libraries', 'waitForImages');
+  drupal_add_library('proud_libraries', 'equalizeHeight');
+}
+
+
+/**
+ *
+ * Implements template_prerocess_page().
+ */
+function proud_libraries_preprocess_page(&$vars) {
+  proud_libraries_load_common();
+  drupal_add_js(drupal_get_path('module', 'proud_libraries') . '/js/proud-common.js',array(
+    'scope' => 'footer', 
+    'weight' => 0
+  ));
+}

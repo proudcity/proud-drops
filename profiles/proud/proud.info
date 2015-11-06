@@ -53,7 +53,7 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = panels_ipe
 dependencies[] = panels_mini
-dependencies[] = panels_extra_styles
+;dependencies[] = panels_extra_styles // no longer using
 dependencies[] = gravatar
 dependencies[] = apps
 
@@ -100,10 +100,11 @@ dependencies[] = panels_ipe
 
 ; Proud - Contrib - Standard Features
 dependencies[] = proud_core
+dependencies[] = proud_libraries
 dependencies[] = proud_input_formats
 dependencies[] = proud_date_formats
 dependencies[] = proud_toolbar
-dependencies[] = proud_layouts
+dependencies[] = proud_panels
 dependencies[] = bootstrap_fieldable_panel_panes
 dependencies[] = proud_widgets
 dependencies[] = proud_media
@@ -119,6 +120,10 @@ dependencies[] = proud_admin
 ;dependencies[] = proud_sitemap
 ;dependencies[] = proud_workbench
 
+
+; ProudCity
+dependencies[] = proud_311_app
+dependencies[] = proudcity_pages
 
 
 files[] = proud.profile

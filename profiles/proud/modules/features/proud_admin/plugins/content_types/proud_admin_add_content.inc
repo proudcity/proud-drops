@@ -4,8 +4,8 @@
 $plugin = array(
   'single' => TRUE,  // Just do this one, it is needed.
   'title' => t('Add Content'),
-  'description' => t('A basic add content box'),
-  'category' => t('Widgets'),
+  'description' => t('Add content action box'),
+  'category' => t('Administration'),
   'render callback' => 'proud_admin_add_content_render', // A function that will return the renderable content.
   'all contexts' => TRUE, // This is NEEDED to be able to use substitution strings in your pane.
 );

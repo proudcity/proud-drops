@@ -22,10 +22,26 @@ function proud_toolbar_permission() {
  * Implements hook_theme().
  */
 function proud_toolbar_theme($existing, $type, $theme, $path) {
+  $path = drupal_get_path('module', 'proud_toolbar');
   $items['proud_toolbar'] = array(
     'render element' => 'toolbar',
     'template' => 'proud-toolbar',
-    'path' => drupal_get_path('module', 'proud_toolbar'),
+    'path' => $path,
+  );
+  $items['proud_sidebar'] = array(
+    'render element' => 'sidebar',
+    'template' => 'proud-sidebar',
+    'path' => $path,
+  );
+  $items['proud_navbar'] = array(
+    'render element' => 'nav',
+    'template' => 'proud-navbar',
+    'path' => $path
+  );
+  $items['proud_navbar_overlay'] = array(
+    'render element' => 'overlay',
+    'template' => 'proud-navbar-overlay',
+    'path' => $path
   );
   return $items;
 }
@@ -49,24 +65,33 @@ function proud_toolbar_theme($existing, $type, $theme, $path) {
  * Add admin proud_toolbar to the page_top region automatically.
  */
 function proud_toolbar_page_build(&$page) {
-  $page['page_top']['proud_toolbar'] = array(
-    '#pre_render' => array('proud_toolbar_pre_render'),
-    '#access' => user_access('access proud toolbar'),
-  );
+  if (!(module_exists('admin_menu') && user_access('access administration menu'))) {
+    module_load_include('inc', 'proud_toolbar', 'includes/toolbar');
+    $page['page_top']['proud_toolbar'] = array(
+      '#pre_render' => array('proud_toolbar_pre_render_toolbar'),
+      '#access' => user_access('access proud toolbar'),
+    );
+  }
+  if (proud_toolbar_sidebar_visible(current_path())) {
+    module_load_include('inc', 'proud_toolbar', 'includes/sidebar');
+    $page['page_top']['proud_sidebar'] = array(
+      '#pre_render' => array('proud_toolbar_pre_render_sidebar'),
+      '#access' => user_access('access proud toolbar'),
+    );
+  }
+  if (!path_is_admin(current_path())) {
+    module_load_include('inc', 'proud_toolbar', 'includes/navbar');
+    $page['page_top']['proud_navbar'] = array(
+      '#pre_render' => array('proud_toolbar_pre_render_navbar'),
+      '#access' => true
+    );
+    $page['page_bottom']['proud_navbar_overlay'] = array(
+      '#pre_render' => array('proud_toolbar_pre_render_navbar_overlay'),
+      '#access' => true
+    );
+  }
 }
 
-/**
- * Prerender function for the proud_toolbar.
- *
- * Since building the proud_toolbar takes some time, it is done just prior to
- * rendering to ensure that it is built only if it will be displayed.
- */
-function proud_toolbar_pre_render($proud_toolbar) {
-  if (!(module_exists('admin_menu') && user_access('access administration menu'))) {
-    $proud_toolbar = array_merge($proud_toolbar, proud_toolbar_view());
-  }
-  return $proud_toolbar;
-}
 
 /**
  * Implements hook_preprocess_html().
@@ -77,17 +102,15 @@ function proud_toolbar_preprocess_html(&$vars) {
   if (isset($vars['page']['page_top']['proud_toolbar']) && user_access('access proud toolbar')) {
     $vars['classes_array'][] = 'proud-toolbar-active';
   }
+  if (isset($vars['page']['page_top']['proud_sidebar']) && user_access('access proud toolbar')) {
+    $vars['classes_array'][] = 'proud-sidebar-active';
+  }
+  if (isset($vars['page']['page_top']['proud_navbar'])) {
+    $vars['classes_array'][] = 'proud-navbar-active';
+  }
 }
 
-/**
- * Implements hook_preprocess_proud_toolbar().
- *
- * Adding the 'overlay-displace-top' class to the proud_toolbar pushes the overlay
- * down, so it appears below the proud_toolbar.
- */
-function proud_toolbar_preprocess_proud_toolbar(&$variables) {
-  $variables['classes_array'][] = "overlay-displace-top";
-}
+
 
 /**
  * Implements hook_system_info_alter().
@@ -105,66 +128,28 @@ function proud_toolbar_system_info_alter(&$info, $file, $type) {
   }
 }
 
+
 /**
- * Builds the admin menu as a structured array ready for drupal_render().
- *
- * @return
- *   Array of links and settings relating to the admin menu.
+ * Returns true if sidebar should be rendered
  */
-function proud_toolbar_view() {
-  global $user;
-
-  $module_path = drupal_get_path('module', 'proud_toolbar');
-  $build = array(
-    '#theme' => 'proud_toolbar',
-    '#attached'=> array(
-      'css' => array(
-        $module_path . '/css/proud-toolbar.css',
-      ),
-      'js' => array(
-        $module_path . '/js/proud-toolbar.js',
-        array(
-          'data' => array('proud_toolbar' => array(
-            'icons' => (int)variable_get('proud_toolbar_icons', TRUE),
-            'move_local_tasks' => variable_get('proud_toolbar_move_local_tasks', TRUE),
-            'move_panels_ipe' => variable_get('proud_toolbar_move_panels_ipe', TRUE),
-          )),
-          'type' => 'setting'
-        ),
-      )
-    ),
+function proud_toolbar_sidebar_visible($path) {
+  $path = current_path();
+  if(!path_is_admin($path)) {
+    return false;
+  }
+  // Paths to exclude
+  $exlude_paths = array(
+    'node\/add',
+    'node\/.*?\/edit',
+    'admin\/modules',
+    'admin\/people\/permissions'
   );
-
-  // Retrieve the admin menu from the database.
-  /*$build['menu'] = array(
-    //'#theme' => 'links__proud_toolbar_menu',
-    '#links' => $links,
-    '#attributes' => array('id' => 'proud_toolbar-menu'),
-    '#heading' => array('text' => t('Administrative proud_toolbar'), 'level' => 'h2', 'class' => 'element-invisible'),
-  );*/
-  $build['toolbar_menu'] = menu_tree('menu-admin');
-
-
-  $build['toolbar_user_name'] = $user->mail;
-  $build['toolbar_user_picture'] = theme('user_picture', array('account' => $user));
-  $build['toolbar_user_menu'] = menu_tree('user-menu');
-
-  // Add a "home" link.
-  $link = array(
-    'home' => array(
-      'title' => variable_get('proud_toolbar_icons', TRUE) ? '<i class="fa fa-home"></i>' : 'Home',
-      'href' => '<front>',
-      'html' => TRUE,
-      'attributes' => array('title' => t('Home')),
-    ),
-  );
-  $build['toolbar_home'] = array(
-    '#theme' => 'links',
-    '#links' => $link,
-    '#attributes' => array('class' => array('nav navbar-nav')),
-  );
-
-  $build['#theme'] = 'proud_toolbar';
-
-  return $build;
-}
+  // Alter
+  drupal_alter('proud_toolbar_sidebar_visible', $exlude_paths);
+  foreach ($exlude_paths as $excluded) {
+    if(preg_match('/'.$excluded.'/', $path)) {
+      return false;
+    }
+  }
+  return true;
+} 

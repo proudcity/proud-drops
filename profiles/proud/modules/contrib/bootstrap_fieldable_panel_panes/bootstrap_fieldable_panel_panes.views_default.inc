@@ -59,7 +59,7 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['fields']['field_tabs_body']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_tabs_body']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_tabs_body']['field_api_classes'] = TRUE;
-  /* Contextual filter: Fieldable pane: Fieldable panel pane UUID */
+  /* Contextual filter: Broken/missing handler */
   $handler->display->display_options['arguments']['uuid']['id'] = 'uuid';
   $handler->display->display_options['arguments']['uuid']['table'] = 'fieldable_panels_panes';
   $handler->display->display_options['arguments']['uuid']['field'] = 'uuid';
@@ -68,7 +68,6 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['arguments']['uuid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uuid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uuid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['uuid']['limit'] = '0';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
@@ -185,7 +184,7 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['fields']['field_carousel_caption']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_carousel_caption']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_carousel_caption']['field_api_classes'] = TRUE;
-  /* Contextual filter: Fieldable pane: Fieldable panel pane UUID */
+  /* Contextual filter: Broken/missing handler */
   $handler->display->display_options['arguments']['uuid']['id'] = 'uuid';
   $handler->display->display_options['arguments']['uuid']['table'] = 'fieldable_panels_panes';
   $handler->display->display_options['arguments']['uuid']['field'] = 'uuid';
@@ -195,12 +194,11 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['arguments']['uuid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uuid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uuid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['uuid']['limit'] = '0';
 
   /* Display: Slideshow */
   $handler = $view->new_display('panel_pane', 'Slideshow', 'panel_pane_1');
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Fieldable pane: Fieldable panel pane UUID */
+  /* Contextual filter: Broken/missing handler */
   $handler->display->display_options['arguments']['uuid']['id'] = 'uuid';
   $handler->display->display_options['arguments']['uuid']['table'] = 'fieldable_panels_panes';
   $handler->display->display_options['arguments']['uuid']['field'] = 'uuid';
@@ -210,7 +208,6 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['arguments']['uuid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uuid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uuid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['uuid']['limit'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -283,7 +280,7 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['fields']['field_tabs_body']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_tabs_body']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_tabs_body']['field_api_classes'] = TRUE;
-  /* Contextual filter: Fieldable pane: Fieldable panel pane UUID */
+  /* Contextual filter: Broken/missing handler */
   $handler->display->display_options['arguments']['uuid']['id'] = 'uuid';
   $handler->display->display_options['arguments']['uuid']['table'] = 'fieldable_panels_panes';
   $handler->display->display_options['arguments']['uuid']['field'] = 'uuid';
@@ -292,7 +289,6 @@ function bootstrap_fieldable_panel_panes_views_default_views() {
   $handler->display->display_options['arguments']['uuid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uuid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uuid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['uuid']['limit'] = '0';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');

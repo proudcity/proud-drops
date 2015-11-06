@@ -12,8 +12,8 @@
  * @see system_install()
  */
 function proud_install() {
-  theme_enable(array('proud_base'));
-  variable_set('theme_default', 'proud_base');
+  theme_enable(array('proudtheme'));
+  variable_set('theme_default', 'proudtheme');
 
   
   // Insert default pre-defined RDF mapping into the database.

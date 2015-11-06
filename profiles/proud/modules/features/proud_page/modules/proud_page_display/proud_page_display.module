@@ -7,32 +7,11 @@
 include_once 'proud_page_display.features.inc';
 
 
-/** 
- * Implementation of hook_entity_info_alter().
- */
-function proud_page_display_entity_info_alter(&$entity_info) {
-  // Example Widget.
-  $entity_info['fieldable_panels_pane']['bundles']['twitter_feed'] = array(
-    'label' => t('Twitter Feed'),
-    'pane category' => t('Social'),
-    'pane top level' => TRUE,
-    'admin' => array(
-      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_panes_type',
-      'bundle argument' => 4,
-      'real path' => 'admin/structure/fieldable-panels-panes/manage/twitter_feed',
-      'access arguments' => array('administer fieldable panels panes'),
-    ),
-  );
-}
-
-function proud_page_display_entity_edit_form_alter(&$form, &$form_state, $form_id) {
-  //dpm($form);
-}
-
 
 /**
  * Implements hook_theme().
  */
+/*
 function proud_page_display_theme() {
   return array(
     'helm_leveled_menu_block' => array(
@@ -44,6 +23,8 @@ function proud_page_display_theme() {
     ),
   );
 }
+*/
+
 
 /**
  * Menu tree into bootstrap nav stacked

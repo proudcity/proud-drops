@@ -189,7 +189,129 @@ function proud_core_view_data($view_name, $display = 'default', $args = array(),
   return ($mode == 'view') ? $view : $view->result;
 }
 
+/**
+ * Implements hook_features_banish_alter().
+ */
+function proud_core_features_banish_alter(&$banished) {
+  // Disable strongarm!
+  global $conf;
+  $keys = array_keys($conf);
+  $banished['variable'] = $keys;
 
+  $banished['dependencies'] = array('devel', 'views_ui', 'strongarm', 'defaultconfig');
+}
+
+
+function proud_core_field_formatter_info_alter(&$info) {
+  //dpm($info);
+}
+
+
+/**
+ * Implements hook_form_alter().
+ **/
+function proud_core_form_alter(&$form, &$form_state, $form_id) {
+  //dpm($form_id);
+}
+
+
+function proud_core_form_views_exposed_form_alter(&$form, &$form_state) {
+  // Make selects radios/checkboxes
+  $fields = array('category');
+  foreach ($fields as $key) {
+    if (!empty($form[$key])) {
+      //$form[$key]['#type'] = isset($form[$key]['#multiple']) && $form[$key]['#multiple'] ? 'checkboxes' : 'radios';
+      // @todo: make this work: http://www.hashbangcode.com/blog/change-views-exposed-filter-form-select-element-list-checkboxes
+      //$form[$key]['#theme'] = array('select_as_checkboxes');
+    }
+  }
+
+  // Tweak styling on date selects
+  $fields = array('date');
+  foreach ($fields as $key) {
+    if (!empty($form[$key])) {
+      $form[$key]['min']['#prefix'] = '<div class="row"><div class="col-sm-6">';
+      $form[$key]['min']['#suffix'] = '</div>';
+      $form[$key]['min']['#date_format'] = 'm/d/Y';
+      $form[$key]['min']['#attributes']['class'] = array('datepicker form-control');
+      $form[$key]['min']['#attributes']['placeholder'] = t('Start');
+      unset($form[$key]['min']['#title']);
+      $form[$key]['max']['#prefix'] = '<div class="col-sm-6">';
+      $form[$key]['max']['#suffix'] = '</div></div>';
+      $form[$key]['max']['#date_format'] = 'm/d/Y';
+      $form[$key]['max']['#attributes']['class'] = array('datepicker form-control');
+      $form[$key]['max']['#attributes']['placeholder'] = t('End');
+      unset($form[$key]['max']['#title']);
+    }
+  }
+
+  // Tweak styling on search text fields
+  $fields = array('search');
+  foreach ($fields as $key) {
+    if (!empty($form[$key])) {
+      $form[$key]['#attributes']['class'][] = 'search';
+      $form[$key]['#attributes']['placeholder'] = t('Keywords');
+    }
+  }
+   
+  
+  //dpm($form);
+}
+
+
+/**
+ * hack to make exposed dropdowns appear as checkboxes
+ * (can't do it w/ form_alter b/c whole structure is different)
+ * just render the options directly as checkboxes, pass the values the same as the SELECT,
+ * tricks the form api and views to think it's a dropdown
+ * [registered w/ hook_theme, toggled w/ #theme in form_alter]
+ */
+/*function theme_select_as_checkboxes($element) {
+  $output = '';
+ 
+  $selected_options = (array) $element['#post'][$element['#name']];
+  dpm($element);
+ 
+  foreach($element['#options'] as $key => $value) {
+    $id = $element['#id'] . '-' . $key;
+ 
+    // is this option selected?
+    $selected = (array_search($key, $selected_options) !== false);
+ 
+    $checkbox = '<input type="checkbox" '
+      . 'name="'. $element['#name'] . '[]' .'" '
+      . 'id="'. $id .'" '
+      . 'value="'. $key .'" '
+      . ($selected ? ' checked="checked" ' : ' ')
+      . drupal_attributes($element['#attributes']) .' />';
+ 
+    $output .= '<label class="option" for="'. $id .'">' . $checkbox .' '. $value .'</label>' . "\n";
+  }
+  return theme_form_element($element, $output);
+}*/
+
+/**
+ * Implementation of HOOK_theme.
+ *
+ * @return array An array of theme hooks.
+ */
+/*function proud_core_theme() {
+  return array(
+    'select_as_checkboxes' => array(
+      'variables' => array(
+        'element' => array(),
+      ),
+    ),
+  );
+}*/
+
+
+/**
+ * Preprocess the add content link used in the modal.
+ */
+function proud_core_preprocess_panels_add_content_link(&$vars) {
+  //dpm(var_dump($vars,1));
+}
 
 //******************************************************************
 
@@ -221,5 +343,8 @@ function proud_core_panels_pane_content_alter($content, $pane, $args, $context) 
     // Prepend edit link to content
     $content->content =  $content_addition . $content->content;
   }
+
+
+  //dpm($content);
 }
 

@@ -464,6 +464,147 @@ You\'re media will be scaled by default. Think about editing your image before u
   );
 
   // Exported field_instance:
+  // 'fieldable_panels_pane-bootstrap_card-field_card_caption'
+  $field_instances['fieldable_panels_pane-bootstrap_card-field_card_caption'] = array(
+    'bundle' => 'bootstrap_card',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'fieldable_panels_pane',
+    'field_name' => 'field_card_caption',
+    'label' => 'Caption',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 3,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'fieldable_panels_pane-bootstrap_card-field_card_image'
+  $field_instances['fieldable_panels_pane-bootstrap_card-field_card_image'] = array(
+    'bundle' => 'bootstrap_card',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'fieldable_panels_pane',
+    'field_name' => 'field_card_image',
+    'label' => 'Image',
+    'required' => 0,
+    'settings' => array(
+      'description_field' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'jpg jpeg gif png',
+      'max_filesize' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'angular_media',
+      'settings' => array(
+        'allowedSchemes' => array(
+          'oembed' => 0,
+          'public' => 0,
+        ),
+        'allowedTypes' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 0,
+          'video' => 0,
+        ),
+        'cropRatio' => 'free',
+        'style' => 'placeholder',
+        'tabs' => array(
+          'flickr' => 0,
+          'me' => 0,
+          'site' => 0,
+          'upload' => 0,
+        ),
+      ),
+      'type' => 'file_angular_media',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'fieldable_panels_pane-bootstrap_card-field_card_link'
+  $field_instances['fieldable_panels_pane-bootstrap_card-field_card_link'] = array(
+    'bundle' => 'bootstrap_card',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'fieldable_panels_pane',
+    'field_name' => 'field_card_link',
+    'label' => 'Link',
+    'required' => 0,
+    'settings' => array(
+      'absolute_url' => 1,
+      'attributes' => array(
+        'class' => 'btn btn-primary',
+        'configurable_class' => 0,
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => 'default',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'rel_remove' => 'default',
+      'title' => 'optional',
+      'title_label_use_field_label' => 0,
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+      'user_register_form' => FALSE,
+      'validate_url' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance:
   // 'fieldable_panels_pane-bootstrap_carousel-field_carousel_slide'
   $field_instances['fieldable_panels_pane-bootstrap_carousel-field_carousel_slide'] = array(
     'bundle' => 'bootstrap_carousel',
@@ -584,6 +725,7 @@ You\'re media will be scaled by default. Think about editing your image before u
   t('Caption');
   t('Class');
   t('Image');
+  t('Link');
   t('Slide Caption');
   t('Slide Image');
   t('Slide Title');

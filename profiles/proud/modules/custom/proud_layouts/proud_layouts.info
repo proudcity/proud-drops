@@ -1,6 +1,0 @@
-name = Proud Layouts
-description = Creates page layouts for helm
-core = 7.x
-package = Proud
-dependencies[] = panels
-

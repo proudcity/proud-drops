@@ -16,7 +16,7 @@ function proud_page_install() {
   	proud_core_content_settings($type);
   	variable_set("pathauto_node_$type_pattern", "pages/[node:title]");
 
-	// Enable *_display submodule
+	  // Enable *_display submodule
   	proud_core_enable_display("proud_$type");
   }
 

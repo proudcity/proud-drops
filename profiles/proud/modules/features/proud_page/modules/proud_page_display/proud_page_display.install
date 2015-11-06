@@ -10,7 +10,35 @@ function proud_page_display_install() {
   	proud_core_add_permissions($permissions);
   }
 
+  // Add menu block
+  variable_set('menu_block_1_admin_title', t('Secondary Menu'));
+  variable_set('menu_block_1_depth', 0);
+  variable_set('menu_block_1_expanded', 1);
+  variable_set('menu_block_1_follow', 0);
+  variable_set('menu_block_1_level', 1);
+  variable_set('menu_block_1_parent', 'main-menu:0');
+  variable_set('menu_block_1_sort', 0);
+  variable_set('menu_block_1_title_link', 0);
+  variable_set('menu_block_ids', array(
+    0 => 1,
+    1 => 2,
+  ));
+  variable_set('page_manager_node_view_disabled', 0);
 }
 
 
-
+/*
+ * Implements hook_uninstall().
+ */
+function proud_page_display_uninstall() {
+  variable_del('menu_block_1_admin_title');
+  variable_del('menu_block_1_depth');
+  variable_del('menu_block_1_expanded');
+  variable_del('menu_block_1_follow');
+  variable_del('menu_block_1_level');
+  variable_del('menu_block_1_parent');
+  variable_del('menu_block_1_sort');
+  variable_del('menu_block_1_title_link');
+  variable_del('menu_block_ids');
+  variable_del('page_manager_node_view_disabled');
+}
